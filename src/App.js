@@ -5,6 +5,7 @@ import { ReactDOM } from 'react';
 import { Button } from './Button.js'; 
 import { ListComponent } from './ListComponent.js'; 
 import { TextField } from './TextField';
+import { Text } from './Text';
 
 
 function App() {
@@ -30,11 +31,11 @@ function App() {
 */
   const searchLocation = (event) => {
     console.log('termos')
-    event.preventDefault()
+    
     if (event.key === 'Enter') {
       console.log('enter press here! ')
       console.log(location)
-      
+      event.preventDefault()
       fetch(`${process.env.REACT_APP_API_URL}/weather?q=${location}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
       
         .then(res => res.json())
@@ -71,17 +72,25 @@ function App() {
       })
   }
   
+  
   return ( 
     
     <div> 
     
       
-      <TextField value={location} 
+      <TextField value={location}
               onChange={event => setLocation(event.target.value)}
               onKeyPress={searchLocation}
               type="text" 
               name="location" 
-              placeholder="Enter"/>
+              placeholder="Enter location"/>
+
+      <Text value={location}
+              onChange={event => setLocation(event.target.value)}
+              onKeyPress={searchLocation}
+              type="text" 
+              name="location" 
+              placeholder="Enter location 2"/>
       
       
 

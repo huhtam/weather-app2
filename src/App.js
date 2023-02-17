@@ -1,8 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
-import { ReactDOM } from 'react';
-import { Button } from './Button.js'; 
+import { useState } from 'react';
 import { ListComponent } from './ListComponent.js'; 
 import { TextField } from './TextField';
 import { Text } from './Text';
@@ -12,38 +9,21 @@ function App() {
 
   const [data,setData] = useState({})
   const [location, setLocation] = useState('')
-  const [icon, setIcon] = useState('')
-
+  const [components, setComponents] = useState([]); 
   /*
-  console.log(process.env.REACT_APP_API_URL)
-  console.log(`${process.env.REACT_APP_API_URL}/weather?q=${location}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
-  */
-  /*
-  useEffect(()=> {
-    fetch(`${process.env.REACT_APP_API_URL}/weather?q=${location}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
-        .then(res => res.json())
-        .then(result => {
-        setData(result)
-        console.log(result)
-        console.log(result.name);
-      });
-  }, [])
+  
 */
   const searchLocation = (event) => {
-    console.log('termos')
     
     if (event.key === 'Enter') {
-      console.log('enter press here! ')
       console.log(location)
       event.preventDefault()
+      
       fetch(`${process.env.REACT_APP_API_URL}/weather?q=${location}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
       
         .then(res => res.json())
         .then(result => {
-        setData(result)
-        console.log(result)
-        addComponent(data)
-        console.log('searchLocation called')
+        addComponent(result)
       })
       
       setLocation('')
@@ -53,52 +33,33 @@ function App() {
   
   */
 
-  const [components, setComponents] = useState([]); 
   
-  function addComponent() { 
-    setComponents([...components, data]) 
-    
-  }
-
-  function search() {
-    
-    fetch(`${process.env.REACT_APP_API_URL}/weather?q=${location}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
-      
-        .then(res => res.json())
-        .then(result => {
-        setData(result)
-        console.log(result)
-        addComponent()
-      })
+  
+  function addComponent(data) { 
+    console.log('komponentti lisäty')
+    setComponents([...components, data])
+    var str = JSON.stringify(components, null, 4); // (Optional) beautiful indented output.
+    console.log(str)
   }
   
   
   return ( 
     
-    <div> 
+    <div className='App'> 
     
-      
-      <TextField value={location}
-              onChange={event => setLocation(event.target.value)}
-              onKeyPress={searchLocation}
-              type="text" 
-              name="location" 
-              placeholder="Enter location"/>
-
-      
-      
-      
-
-      <div className='weatherdiv'>
-        <div className='place'>
-          {data.name}{data.sys ? ", " + data.sys.country : null}
-        </div>
-          
-        <div className='temperature'>
-          {data.main ? data.main.temp  + " °C" : null}
-        </div>
-        {components.slice().map((item, i) => ( <ListComponent text={item} /> ))} 
+      <div className='Searchelement'>
+        <TextField value={location}
+          onChange={event => setLocation(event.target.value)}
+          onKeyPress={searchLocation}
+          type="text" 
+          name="location" 
+          placeholder="Enter location"/>
       </div>
+      {components.map((item, i) => ( <ListComponent text={item} /> ))} 
+      
+      
+
+      
     </div> 
     
   ) 
@@ -106,8 +67,30 @@ function App() {
   
 
   return (
+    
+    
     <div className="App">
 
+
+<div className='Weatherdiv'>
+        
+        <div className='place'>
+          {data.name}{data.sys ? ", " + data.sys.country : null}
+        </div>
+          
+        <div className='temperature'>
+          {data.main ? data.main.temp  + " °C" : null}
+        </div>
+        
+      </div>
+
+
+    <Text value={location}
+                  onChange={event => setLocation(event.target.value)}
+                  onKeyPress={searchLocation}
+                  type="text" 
+                  name="location" 
+                  placeholder="Enter location 2"/>
       <div className='weatherdiv'>
         <div>
           <form>

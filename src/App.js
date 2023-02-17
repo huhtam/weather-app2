@@ -85,12 +85,7 @@ function App() {
               name="location" 
               placeholder="Enter location"/>
 
-      <Text value={location}
-              onChange={event => setLocation(event.target.value)}
-              onKeyPress={searchLocation}
-              type="text" 
-              name="location" 
-              placeholder="Enter location 2"/>
+      
       
       
 
